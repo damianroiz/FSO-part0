@@ -49,7 +49,7 @@ const App = () => {
   const exercises3 = 14;
 
   return (
-    <div>
+    <div className="app">
       <Header course={course} />
       <Content
         part1={part1}

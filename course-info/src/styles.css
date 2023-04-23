@@ -1,0 +1,15 @@
+body {
+    background-color: #33332D;
+    color: #fff;
+}
+
+.app {
+    display: block;
+    margin: 0 auto;
+    width: fit-content;
+}
+
+p {
+    font-size: 18px;
+}
+
