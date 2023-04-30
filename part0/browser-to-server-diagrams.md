@@ -79,4 +79,5 @@ sequenceDiagram
 *[200 OK - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/200)*
 *[201 Created - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/201)*
 *[304 Not Modified - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/304)*
+*[302 Found - HTTP | MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/302)*
 
