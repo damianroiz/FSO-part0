@@ -1,6 +1,6 @@
 import React from "react";
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Filter from "./components/Filter";
 import Form from "./components/Form";
 import Name from "./components/Name";
@@ -12,6 +12,15 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+
+  useEffect(() => {
+    console.log("effect");
+    axios.get("http://localhost:3005/persons").then((response) => {
+      console.log("promise fulfilled");
+      setPersons(response.data);
+    });
+  }, []);
+  console.log("render", persons.length, "persons");
 
   const addName = (event) => {
     event.preventDefault();
