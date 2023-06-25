@@ -22,26 +22,7 @@ const App = () => {
 
   console.log("render", persons.length, "persons");
 
-  const updatePerson = (id, newObject) => {
-    personsService.update(id, newObject).then((returnedPerson) => {
-      setPersons(
-        persons.map((person) => (person.id !== id ? person : returnedPerson))
-      ).catch((error) => {
-        console.log(
-          `the person '${person.name} was already deleted from the server'`
-        );
-        setPersons(persons.filter((p) => p.id !== id));
-      });
-    });
-  };
-
-  const deletePerson = (id) => {
-    personsService.remove(id).then(() => {
-      setPersons(persons.filter((person) => person.id !== id))
-    }).catch((error) => {
-      console.log(`Error deleting person with ID ${id}`)
-    })
-  }
+  
 
   const addName = (event) => {
     event.preventDefault();
@@ -70,6 +51,31 @@ const App = () => {
       setNewName("");
       setNewNumber("");
     }
+  };
+
+  const updatePerson = (id, newObject) => {
+    personsService
+      .update(id, newObject)
+      .then((returnedPerson) => {
+        setPersons(
+          persons.map((person) => (person.id !== id ? person : returnedPerson))
+        );
+      })
+      .catch((error) => {
+        console.log(`Error updating person with ID ${id}`);
+        setPersons(persons.fliter((p) => p.id !== id));
+      });
+  };
+ 
+  const deletePerson = (id) => {
+    personsService
+      .remove(id)
+      .then(() => {
+        setPersons(persons.filter((person) => person.id !== id));
+      })
+      .catch((error) => {
+        console.log(`Error deleting person with ID ${id}`);
+      });
   };
 
   const handleNumberChange = (event) => {
@@ -119,7 +125,7 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {filteredUsers.map((person) => (
-          <Name key={person.id} name={person.name} number={person.number} />
+          <Name key={person.id} name={person.name} number={person.number} deleteName={deletePerson} />
         ))}
       </ul>
     </div>
