@@ -22,8 +22,6 @@ const App = () => {
 
   console.log("render", persons.length, "persons");
 
-  
-
   const addName = (event) => {
     event.preventDefault();
     const trimmedName = newName.trim().replace(/\s+/g, " ");
@@ -47,35 +45,56 @@ const App = () => {
     if (nameChecker) {
       alert(`${newName} is already added to phonebook`);
     } else {
-      setPersons(persons.concat(directory));
-      setNewName("");
-      setNewNumber("");
+      const newPerson = { name: newName, number: newNumber };
+
+      personsService.create(newPerson).then((addedPerson) => {
+        setPersons(persons.concat(addedPerson));
+        // setPersons(persons.concat(directory));
+        setNewName("");
+        setNewNumber("");
+      });
     }
   };
 
-  const updatePerson = (id, newObject) => {
-    personsService
-      .update(id, newObject)
-      .then((returnedPerson) => {
-        setPersons(
-          persons.map((person) => (person.id !== id ? person : returnedPerson))
-        );
-      })
-      .catch((error) => {
-        console.log(`Error updating person with ID ${id}`);
-        setPersons(persons.fliter((p) => p.id !== id));
+  // const updatePerson = (id, newObject) => {
+  //   personsService
+  //     .update(id, newObject)
+  //     .then((returnedPerson) => {
+  //       setPersons(
+  //         persons.map((person) => (person.id !== id ? person : returnedPerson))
+  //       );
+  //     })
+  //     .catch((error) => {
+  //       console.log(`Error updating person with ID ${id}`);
+  //       setPersons(persons.fliter((p) => p.id !== id));
+  //     });
+  // };
+
+  // const handleDelete = (id) => {
+  //   // personsService
+  //   //   .remove(id)
+  //   //   .then(() => {
+  //   //     setPersons(persons.filter((person) => person.id !== id));
+  //   //   })
+  //   //   .catch((error) => {
+  //   //     console.log(`Error deleting person with ID ${id}`);
+  //   //   });
+  //   let deletePerson = confirm(`Do you want to delete ${id}?`);
+  //   if (deletePerson) {
+  //     personsService
+  //       .remove(`http://localhost:3005/persons/${id}`)
+  //       .then((data) =>
+  //         setPersons(persons.filter((person) => person.id !== id))
+  //       );
+  //   }
+  // };
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name}?`)) {
+      personsService.remove(id).then(() => {
+        setPersons(persons.filter((person) => person.name !== name));
       });
-  };
- 
-  const deletePerson = (id) => {
-    personsService
-      .remove(id)
-      .then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
-      })
-      .catch((error) => {
-        console.log(`Error deleting person with ID ${id}`);
-      });
+    }
   };
 
   const handleNumberChange = (event) => {
@@ -125,7 +144,13 @@ const App = () => {
       <h2>Numbers</h2>
       <ul>
         {filteredUsers.map((person) => (
-          <Name key={person.id} name={person.name} number={person.number} deleteName={deletePerson} />
+          <Name
+            id={person.id}
+            key={person.id}
+            name={person.name}
+            number={person.number}
+            handleDelete={handleDelete}
+          />
         ))}
       </ul>
     </div>
