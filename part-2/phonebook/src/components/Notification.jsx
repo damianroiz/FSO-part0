@@ -1,12 +1,10 @@
 import "../index.css";
 
-
-
-const Notification = ({ message }) => {
+const Notification = ({ message, style }) => {
   if (message === null) {
     return null;
   }
-  return <div className="ok-message">{message}</div>;
+  return <div className={style}>{message}</div>;
 };
 
 export default Notification;

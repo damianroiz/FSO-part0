@@ -117,15 +117,21 @@ const App = () => {
   const handleDelete = (id, name) => {
     let deletePerson = window.confirm(`Do you want to delete ${name}?`);
     if (deletePerson) {
-      personsService.remove(id).then(() => {
-        setPersons(persons.filter((person) => person.id !== id));
-        setNewName("");
-        setNewNumber("");
-        setMessage(`${name} removed from phonebook`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      });
+      personsService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter((person) => person.id !== id));
+          setNewName("");
+          setNewNumber("");
+          setMessage(`${name} removed from phonebook`);
+        })
+        .catch((error) => {
+          setMessage(`${name} has already been removed from server`);
+          setPersons(persons.filter((person) => person.id !== id));
+        });
+      setTimeout(() => {
+        setMessage(null);
+      }, 5000);
     }
   };
 
@@ -158,9 +164,19 @@ const App = () => {
     person.name.toLowerCase().startsWith(newSearch.toLowerCase())
   );
 
+  const styleSwitch = (message) => {
+    if (message.contains("phonebook")) {
+      return "ok-message";
+    } else {
+      return "error-message";
+    }
+  };
+
+  console.log(message);
+  console.log(styleSwitch);
   return (
     <div>
-      <Notification className={"ok-message"} message={message} />
+      <Notification style={"ok-message"} message={message} />
       <Filter
         title={"PhoneBook"}
         handleSearch={handleSearch}
