@@ -1,10 +1,11 @@
 import React from "react";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import Filter from "./components/Filter";
 import Form from "./components/Form";
 import Name from "./components/Name";
 import personsService from "./services/persons";
+import Notification from "./components/Notification";
+import "./index.css";
 
 // const Persons = () => {};
 
@@ -13,6 +14,7 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
+  const [message, setMessage] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -67,6 +69,10 @@ const App = () => {
         setPersons(persons.concat(newContact));
         setNewName("");
         setNewNumber("");
+        setMessage(`${trimmedName} added to phonebook`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
     }
 
@@ -115,6 +121,10 @@ const App = () => {
         setPersons(persons.filter((person) => person.id !== id));
         setNewName("");
         setNewNumber("");
+        setMessage(`${name} removed from phonebook`);
+        setTimeout(() => {
+          setMessage(null);
+        }, 5000);
       });
     }
   };
@@ -150,6 +160,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification className={"ok-message"} message={message} />
       <Filter
         title={"PhoneBook"}
         handleSearch={handleSearch}
