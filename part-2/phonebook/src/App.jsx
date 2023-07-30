@@ -41,8 +41,10 @@ const App = () => {
       console.log(response);
     });
 
-    const nameChecker = persons.some((person) => person.name === trimmedName);
-    if (nameChecker) {
+    const contactChecker = persons.some(
+      (person) => person.name === trimmedName
+    );
+    if (contactChecker) {
       alert(`${newName} is already added to phonebook`);
     } else {
       const newPerson = { name: newName, number: newNumber };
@@ -90,9 +92,12 @@ const App = () => {
   // };
 
   const handleDelete = (id, name) => {
-    if (window.confirm(`Delete ${name}?`)) {
+    let deletePerson = window.confirm(`Do you want to delete ${name}?`);
+    if (deletePerson) {
       personsService.remove(id).then(() => {
-        setPersons(persons.filter((person) => person.name !== name));
+        setPersons(persons.filter((person) => person.id !== id));
+        setNewName("");
+        setNewNumber("");
       });
     }
   };

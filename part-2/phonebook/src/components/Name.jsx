@@ -3,7 +3,7 @@ const Name = ({ id, name, number, handleDelete }) => {
     <li>
       {name}
       <span>{` - ${number}`}</span>
-      <button onClick={() => handleDelete(id)}>delete</button>
+      <button onClick={() => handleDelete(id, name)}>delete</button>
     </li>
   );
 };
