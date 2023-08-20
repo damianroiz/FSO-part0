@@ -164,19 +164,13 @@ const App = () => {
     person.name.toLowerCase().startsWith(newSearch.toLowerCase())
   );
 
-  const styleSwitch = (message) => {
-    if (message.contains("phonebook")) {
-      return "ok-message";
-    } else {
-      return "error-message";
-    }
-  };
+  const styleSwitch = (str) => str.contains("phonebook") 
+  ? "ok-message"
+  : "error-message";
 
-  console.log(message);
-  console.log(styleSwitch);
   return (
     <div>
-      <Notification style={"ok-message"} message={message} />
+      <Notification style={styleSwitch(message)} message={message} />
       <Filter
         title={"PhoneBook"}
         handleSearch={handleSearch}
