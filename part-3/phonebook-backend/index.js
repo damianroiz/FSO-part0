@@ -3,6 +3,7 @@ const app = express();
 
 app.use(express.json());
 
+//////////// 3.1
 let persons = [
   {
     id: 1,
@@ -26,17 +27,29 @@ let persons = [
   },
 ];
 
-app.get("/", (request, response) => {
-  response.send("<h1>Hello World!</h1>");
+
+//////////// 3.1
+app.get("/api/persons", (request, response) => {
+    response.json(persons);
 });
 
+////////// 3.2
 app.get('/info', (request, response) => {
     response.send(`<p>Phonebook has info for ${persons.length} people</p><p>${date = new Date()}</p>`)
 })
 
-app.get("/api/persons", (request, response) => {
-  response.json(persons);
-});
+////////////// 3.3 
+app.get('/api/persons/:id', (request, response) => {
+    const id = +request.params.id
+    const person = persons.find(person => person.id === id)
+
+    if(person) {
+        response.json(person)
+    } else {
+        response.status(404).end()
+    }
+
+})
 
 const PORT = 3001;
 app.listen(PORT, () => {
