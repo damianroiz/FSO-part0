@@ -15,6 +15,7 @@ const App = () => {
   const [newNumber, setNewNumber] = useState("");
   const [newSearch, setNewSearch] = useState("");
   const [message, setMessage] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
@@ -126,7 +127,8 @@ const App = () => {
           setMessage(`${name} removed from phonebook`);
         })
         .catch((error) => {
-          setMessage(`${name} has already been removed from server`);
+          // setMessage(`${name} has already been removed from server`);
+          setError(`${name} has already been removed from server`);
           setPersons(persons.filter((person) => person.id !== id));
         });
       setTimeout(() => {
@@ -164,13 +166,13 @@ const App = () => {
     person.name.toLowerCase().startsWith(newSearch.toLowerCase())
   );
 
-  const styleSwitch = (str) => str.contains("phonebook") 
-  ? "ok-message"
-  : "error-message";
+  const styleSwitch = (str) =>
+    str.contains("phonebook") ? "ok-message" : "error-message";
 
   return (
     <div>
-      <Notification style={styleSwitch(message)} message={message} />
+      <Notification style={"ok-message"} message={message} />
+      <Notification style={"error-message"} message={error} />
       <Filter
         title={"PhoneBook"}
         handleSearch={handleSearch}
