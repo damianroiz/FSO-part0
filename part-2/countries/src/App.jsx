@@ -59,6 +59,7 @@ const App = () => {
             <p>Area: {country.area} Km2</p>
             <h2>Languages:</h2>
             <ul>{countryLang(country)}</ul>
+            <img src={country.flags.png} alt={country.flags.alt}/>
           </div>
         );
       } else {
