@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import CountryInfo from "./components/CountryInfo";
 // import SearchBar from "./components/SearchBar";
 
 // get all countries from API
@@ -36,41 +37,25 @@ const App = () => {
     country.name.common.toLowerCase().startsWith(search.toLowerCase())
   );
 
-  const countryLang = (country) => {
-    const langArr = Object.values(country.languages);
-    return langArr.map((language, index) => <li key={index}>{language}</li>);
-  };
-
-// Add country flag  
-//   const countryFlag = country => {
-//     const flagUrl = Object.values(country)
-//   }
-
   const CountriesToShow = () => {
     if (search !== "") {
       if (filterCountries.length > 10) {
         return <div>Too many countries to show, please be more specific</div>;
       } else if (filterCountries.length === 1) {
         const country = filterCountries[0];
-        return (
-          <div>
-            <h1>{country.name.common}</h1>
-            <p>Capital: {country.capital}</p>
-            <p>Area: {country.area} Km2</p>
-            <h2>Languages:</h2>
-            <ul>{countryLang(country)}</ul>
-            <img src={country.flags.png} alt={country.flags.alt}/>
-          </div>
-        );
+        return <CountryInfo country={country} />;
       } else {
         return filterCountries.map((country) => (
-          <div key={country.cca3}>{country.name.common}</div>
+          <div key={country.cca3}>
+            <span>
+              {country.name.common}
+              <button>show</button>
+            </span>
+          </div>
         ));
       }
     }
   };
-
-  console.log(CountriesToShow([...filterCountries]));
 
   return (
     <div>
