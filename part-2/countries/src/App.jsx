@@ -33,11 +33,15 @@ const App = () => {
     // setSelectedCountry(null);
   };
 
-  const filterCountries = countries.filter((country) =>
-    country.name.common.toLowerCase().startsWith(search.toLowerCase())
-  );
-
   const CountriesToShow = () => {
+    let filterCountries = countries.filter((country) =>
+      country.name.common.toLowerCase().startsWith(search.toLowerCase())
+    );
+
+    const countrySelected = (country) => {
+      setCountries([country]);
+    };
+
     if (search !== "") {
       if (filterCountries.length > 10) {
         return <div>Too many countries to show, please be more specific</div>;
@@ -49,7 +53,7 @@ const App = () => {
           <div key={country.cca3}>
             <span>
               {country.name.common}
-              <button>show</button>
+              <button onClick={() => countrySelected(country)}>show</button>
             </span>
           </div>
         ));
