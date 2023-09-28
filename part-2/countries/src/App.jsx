@@ -13,7 +13,7 @@ import CountryInfo from "./components/CountryInfo";
 const App = () => {
   const [search, setSearch] = useState("");
   const [countries, setCountries] = useState([]);
-  console.log(search);
+  // const [selectedCountry, setSelectedCountry] = useState();
 
   useEffect(() => {
     console.log("effect");
@@ -26,7 +26,7 @@ const App = () => {
       .catch((error) => {
         console.log("Error fetching country data:", error);
       });
-  }, []);
+  }, [search]);
 
   const handleChange = (e) => {
     setSearch(e.target.value);
@@ -40,6 +40,8 @@ const App = () => {
 
     const countrySelected = (country) => {
       setCountries([country]);
+      //setSelected(setCountries([country])) // creating a separte state is not working when button is clicked
+      // setSeach("") // this would blog the if statement below
     };
 
     if (search !== "") {
