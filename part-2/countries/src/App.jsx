@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
+import { ReactDOM } from "react";
 import axios from "axios";
-import CountryInfo from "./components/CountryInfo";
-// import SearchBar from "./components/SearchBar";
+import SearchBar from "./components/SearchBar";
+import CountriesToShow from "./components/CountriesToShow";
 
 // get all countries from API
 //filter values according while typing
@@ -13,15 +14,13 @@ import CountryInfo from "./components/CountryInfo";
 const App = () => {
   const [search, setSearch] = useState("");
   const [countries, setCountries] = useState([]);
-  // const [selectedCountry, setSelectedCountry] = useState();
 
   useEffect(() => {
-    console.log("effect");
     axios
       .get("https://studies.cs.helsinki.fi/restcountries/api/all")
       .then((response) => {
         setCountries(response.data);
-        console.log(`the set country is ${setCountries}`);
+        // console.log(`the set country is ${setCountries}`);
       })
       .catch((error) => {
         console.log("Error fetching country data:", error);
@@ -30,59 +29,22 @@ const App = () => {
 
   const handleChange = (e) => {
     setSearch(e.target.value);
-    // setSelectedCountry(null);
   };
 
-  const CountriesToShow = () => {
-    let filterCountries = countries.filter((country) =>
-      country.name.common.toLowerCase().startsWith(search.toLowerCase())
-    );
-
-    const countrySelected = (country) => {
-      setCountries([country]);
-      //setSelected(setCountries([country])) // creating a separte state is not working when button is clicked
-      // setSeach("") // this would blog the if statement below
-    };
-
-    if (search !== "") {
-      if (filterCountries.length > 10) {
-        return <div>Too many countries to show, please be more specific</div>;
-      } else if (filterCountries.length === 1) {
-        const country = filterCountries[0];
-        return <CountryInfo country={country} />;
-      } else {
-        return filterCountries.map((country) => (
-          <div key={country.cca3}>
-            <span>
-              {country.name.common}
-              <button onClick={() => countrySelected(country)}>show</button>
-            </span>
-          </div>
-        ));
-      }
-    }
-  };
+  let filterCountries = countries.filter((country) =>
+    country.name.common.toLowerCase().startsWith(search.toLowerCase())
+  );
 
   return (
     <div>
-      Find Countries: <input onChange={handleChange} value={search} />
-      <CountriesToShow />
+      <SearchBar onChange={handleChange} value={search} />
+      <CountriesToShow
+        filterCountries={filterCountries}
+        setCountries={setCountries}
+        search={search}
+      />
     </div>
   );
 };
 
 export default App;
-
-//   countriesToShow([...filterCountries]).length === 1 &&
-//     selectedCountry(countriesToShow([...filterCountries]));
-
-/* <div>
-Find Countries: <input onChange={handleChange} value={search} />
-{selectedCountry
-  ? selectedCountry.map((country) => (
-      <div key={country.name.common}>{country.name.common}</div>
-    ))
-  : countriesToShow([...filterCountries]).map((country) => (
-      <div key={country.name.common}>{country.name.common}</div>
-    ))}
-</div> */

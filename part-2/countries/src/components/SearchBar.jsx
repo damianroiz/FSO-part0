@@ -1,7 +1,7 @@
 const SearchBar = ({ value, onChange }) => {
   return (
     <form>
-      <span>Enter Country</span>
+      <span>Find Countries: </span>
       <label htmlFor="country-search"></label>
       <input
         type="search"
