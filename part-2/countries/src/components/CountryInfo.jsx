@@ -13,7 +13,7 @@ const CountryInfo = function ({ country }) {
       <h2>Languages:</h2>
       <ul>{countryLang(country)}</ul>
       <img src={country.flags.png} alt={country.flags.alt} />
-      <Weather country={country.name.common} />
+      <Weather country={'canada'} />
     </div>
   );
 };

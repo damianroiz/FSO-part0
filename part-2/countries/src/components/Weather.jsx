@@ -9,6 +9,7 @@ const Weather = ({ country }) => {
 
   useEffect(
     (country) => {
+      console.log("Fetching weather data for country:", country);
       // let params = new URLSearchParams({
       //   access_key: apiKey,
       //   query: "New York",
@@ -20,7 +21,10 @@ const Weather = ({ country }) => {
         )
         // .then((response) => console.log(response.json()))
         // .then((res) => `this is the response: ${console.log(res.data)}`)
-        .then((response) => setCapitalWeather(response.data))
+        .then((response) => {
+          console.log(response.data);
+          setCapitalWeather(response?.data);
+        })
         .catch((error) => {
           console.log("Error fetching weather data:", error);
         });
@@ -45,5 +49,3 @@ const Weather = ({ country }) => {
 };
 
 export default Weather;
-
-// const http = 'http://api.weatherstack.com/current?access_key=9895885556ef0f1e8c4265594838d631&query=canada'

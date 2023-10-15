@@ -73,6 +73,23 @@ app.delete("/api/persons/:id", (request, response) => {
   response.status(204).end();
 });
 
+/////////////// 3.5
+
+app.post("/api/persons", (request, response) => {
+  let id;
+  do {
+    id = Math.floor(Math.random() * 100000) + 1;
+  } while (persons.find((person) => person.id === id));
+  const person = persons.find((person) => person.id === id);
+
+  const body = request.body;
+
+  const newPerson = { id, ...body };
+  persons.push(newPerson);
+
+  response.json(newPerson);
+});
+
 //////////////////////////
 ////// 3.8
 
