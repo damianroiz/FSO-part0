@@ -1,10 +1,12 @@
 const express = require("express");
-const morgan = require("morgan");
+const morgan = require("morgan"); //// 3.7 
 const app = express();
 
 app.use(express.json());
 // app.use(morgan("combined"));
 
+//////////////////////////
+////// 3.8
 morgan.token("body", (req, res) => JSON.stringify(req.body));
 
 app.use(
@@ -80,9 +82,26 @@ app.post("/api/persons", (request, response) => {
   do {
     id = Math.floor(Math.random() * 100000) + 1;
   } while (persons.find((person) => person.id === id));
-  const person = persons.find((person) => person.id === id);
 
   const body = request.body;
+
+  ///////////////// 3.6
+ ////////////// error handlers
+  if (persons.find((person) => person.name === body.name)) {
+    return response.status(400).json({
+      error: "name must be unique",
+    });
+  }
+  if (!body.name) {
+    return response.status(400).json({
+      error: "name is missing",
+    });
+  }
+  if (!body.number) {
+    return response.status(400).json({
+      error: "number is missing",
+    });
+  }
 
   const newPerson = { id, ...body };
   persons.push(newPerson);
@@ -90,33 +109,31 @@ app.post("/api/persons", (request, response) => {
   response.json(newPerson);
 });
 
-//////////////////////////
-////// 3.8
+// old solution for 3.5
+// const idGenerator = () => {
+//   const maxId = persons.length > 0 ? Math.max(...persons.map((p) => p.id)) : 0;
+//   return maxId + 1;
+// };
 
-const idGenerator = () => {
-  const maxId = persons.length > 0 ? Math.max(...persons.map((p) => p.id)) : 0;
-  return maxId + 1;
-};
+// app.post("/api/persons", (request, response) => {
+//   const body = request.body;
 
-app.post("/api/persons", (request, response) => {
-  const body = request.body;
+//   if (!body.name || !body.number) {
+//     return response.status(400).json({
+//       error: "content missing",
+//     });
+//   }
 
-  if (!body.name || !body.number) {
-    return response.status(400).json({
-      error: "content missing",
-    });
-  }
+//   const person = {
+//     id: idGenerator(),
+//     name: body.name,
+//     number: body.number,
+//   };
 
-  const person = {
-    id: idGenerator(),
-    name: body.name,
-    number: body.number,
-  };
+//   persons = persons.concat(person);
 
-  persons = persons.concat(person);
-
-  response.json(person);
-});
+//   response.json(person);
+// });
 
 const PORT = 3001;
 app.listen(PORT, () => {
