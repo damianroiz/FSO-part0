@@ -23,10 +23,19 @@ const App = () => {
       important: Math.random() > 0.5,
     };
 
-    noteService.create(noteObject).then((returnedNote) => {
-      setNotes(notes.concat(returnedNote));
-      setNewNote("");
-    });
+    noteService
+      .create(noteObject)
+      .then((returnedNote) => {
+        setNotes(notes.concat(returnedNote));
+        setNewNote("");
+      })
+      .catch((error) => {
+        if (error.response && error.response.data) {
+          console.log(`${error.response.data.error}`);
+        } else {
+          setErrorMessage(`Unknown error ocurred`);
+        }
+      });
   };
 
   const toggleImportanceOf = (id) => {

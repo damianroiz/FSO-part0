@@ -66,15 +66,25 @@ const App = () => {
           });
       }
     } else {
-      personsService.create(directory).then((newContact) => {
-        setPersons(persons.concat(newContact));
-        setNewName("");
-        setNewNumber("");
-        setMessage(`${trimmedName} added to phonebook`);
-        setTimeout(() => {
-          setMessage(null);
-        }, 5000);
-      });
+      personsService
+        .create(directory)
+        .then((newContact) => {
+          setPersons(persons.concat(newContact));
+          setNewName("");
+          setNewNumber("");
+          setMessage(`${trimmedName} added to phonebook`);
+          setTimeout(() => {
+            setMessage(null);
+          }, 5000);
+        })
+        .catch((error) => {
+          if (error.response && error.response.data) {
+            console.log(`${error.response.data.error}`);
+            setMessage(`${error.response.data.error}`);
+          } else {
+            setMessage("Unknown error ocurred");
+          }
+        });
     }
 
     // axios.post("http://localhost:3005/persons", directory).then((response) => {
@@ -166,13 +176,12 @@ const App = () => {
     person.name.toLowerCase().startsWith(newSearch.toLowerCase())
   );
 
-  const styleSwitch = (str) =>
-    str.contains("phonebook") ? "ok-message" : "error-message";
+  // const styleSwitch = (str) =>
+  //   str.contains("phonebook") ? "ok-message" : "error-message";
 
   return (
     <div>
-      <Notification style={"ok-message"} message={message} />
-      <Notification style={"error-message"} message={error} />
+      <Notification style={message ? "ok-message" : "error-message"} message={message} />
       <Filter
         title={"PhoneBook"}
         handleSearch={handleSearch}
