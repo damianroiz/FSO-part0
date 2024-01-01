@@ -6,6 +6,7 @@ import Name from "./components/Name";
 import personsService from "./services/persons";
 import Notification from "./components/Notification";
 import "./index.css";
+import { AxiosError } from "axios";
 
 // const Persons = () => {};
 
@@ -19,7 +20,12 @@ const App = () => {
 
   useEffect(() => {
     personsService.getAll().then((initialPersons) => {
-      setPersons(initialPersons);
+      if (Array.isArray(initialPersons)) {
+        setPersons(initialPersons);
+      } else {
+        console.error("personsService.getAll() did not return an array");
+        setPersons([]);
+      }
     });
   }, []);
 
@@ -73,18 +79,18 @@ const App = () => {
           setNewName("");
           setNewNumber("");
           setMessage(`${trimmedName} added to phonebook`);
-          setTimeout(() => {
-            setMessage(null);
-          }, 5000);
         })
         .catch((error) => {
-          if (error.response && error.response.data) {
-            console.log(`${error.response.data.error}`);
-            setMessage(`${error.response.data.error}`);
+          if (error.response || error.response.data) {
+            setError(`${error.response.data.error}`);
           } else {
-            setMessage("Unknown error ocurred");
+            setError("Unknown error ocurred");
           }
         });
+      setTimeout(() => {
+        setMessage(null);
+        setError(null);
+      }, 5000);
     }
 
     // axios.post("http://localhost:3005/persons", directory).then((response) => {
@@ -143,6 +149,7 @@ const App = () => {
         });
       setTimeout(() => {
         setMessage(null);
+        setError(null);
       }, 5000);
     }
   };
@@ -181,9 +188,10 @@ const App = () => {
 
   return (
     <div>
-      <Notification style={message ? "ok-message" : "error-message"} message={message} />
+      {message && <Notification style={"ok-message"}>{message}</Notification>}
+      {error && <Notification style={"error-message"}>{error}</Notification>}
       <Filter
-        title={"PhoneBook"}
+        title={"Phonebook"}
         handleSearch={handleSearch}
         newSearch={newSearch}
       />
