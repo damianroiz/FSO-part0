@@ -1,5 +1,5 @@
-const listHelper = require("./utils/list_helper");
-const { blogs } = require("./utils/list_helper");
+const listHelper = require("../utils/list_helper");
+const { blogs } = require("../utils/list_helper");
 
 //////// 4.3
 test("dummy returns one", () => {
@@ -61,14 +61,13 @@ describe("most blogs", () => {
   });
 });
 
-
 /////////// 4.7
 describe("most likes", () => {
   test("return the most popular author", () => {
     const result = listHelper.mostLikes(listHelper.blogs);
     expect(result).toEqual({
       author: "Edsger W. Dijkstra",
-      likes: 17
+      likes: 17,
     });
   });
 });

@@ -1,11 +1,4 @@
 const mongoose = require("mongoose");
-const url = newFunction();
-
-mongoose.connect(url).then((result) => {
-    console.log("connected to MongoDB");
-  }).catch((error) => {
-    console.log("error connecting to MongoDB:", error.message);
-  });
 
 const blogSchema = new mongoose.Schema({
   title: String,
@@ -23,11 +16,3 @@ blogSchema.set("toJSON", {
 });
 
 module.exports = mongoose.model("Blog", blogSchema);
-
-function newFunction() {
-  require("dotenv").config();
-  mongoose.set("strictQuery", false);
-  const url = process.env.MONGODB_URI;
-  console.log("connecting to", url);
-  return url;
-}
