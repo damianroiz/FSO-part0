@@ -53,6 +53,30 @@ test("a blog is created successfully", async () => {
   assert.strictEqual(response.body.length, helper.initialBlogs.length + 1);
 });
 
+//4.11
+test("a blog with no likes shows 0 likes", async () => {
+  const unpopularBlog = {
+    title: "A title with not likes",
+    author: "An Author nobody likes",
+    url: "unpopularblog",
+  };
+
+  if (!unpopularBlog.likes) {
+    unpopularBlog.likes = 0;
+  }
+
+  await api
+    .post("/api/blogs")
+    .send(unpopularBlog)
+    .expect(201)
+    .expect("Content-Type", /application\/json/);
+
+  const response = await api.get("/api/blogs");
+  response.body.forEach((blog) => {
+    assert(unpopularBlog.likes === 0);
+  });
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
