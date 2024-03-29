@@ -7,14 +7,14 @@ blogsRouter.get("/", async (request, response) => {
 });
 
 blogsRouter.get("/:id", async (request, response) => {
-  const note = await Note.findById(request.params.id);
-  note ? response.json(note) : response.status(404).end;
+  const blog = await Blog.findById(request.params.id);
+  blog ? response.json(blog) : response.status(404).end;
 });
 
 blogsRouter.put("/:id", async (request, response) => {
   const body = request.body;
 
-  const note = {
+  const blog = {
     title: body.title,
     author: body.author,
     url: body.url,
@@ -28,16 +28,20 @@ blogsRouter.put("/:id", async (request, response) => {
 });
 
 blogsRouter.post("/", async (request, response) => {
-  const body = request.body;
+  const { title, author, url, likes } = request.body;
 
   const blog = new Blog({
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes || 0,
+    title: title,
+    author: author,
+    url: url,
+    likes: likes || 0,
   });
 
-  const savedBlog = blog.save();
+  if (!author || !url) {
+    return response.status(400).send({ error: "missing data" });
+  }
+
+  const savedBlog = await blog.save();
   response.status(201).json(savedBlog);
 });
 

@@ -77,6 +77,16 @@ test("a blog with no likes shows 0 likes", async () => {
   });
 });
 
+//4.12
+test("a test with missing data is not added", async () => {
+  const incompleteBlog = {
+    title: "An incomplete blog",
+  };
+
+  const response = await api.get("/api/blogs");
+  assert.strictEqual(response.body.length, helper.initialBlogs.length);
+});
+
 after(async () => {
   await mongoose.connection.close();
 });
