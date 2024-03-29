@@ -1,5 +1,5 @@
 const blogsRouter = require("express").Router();
-const Blog = require("../models/Blog");
+const Blog = require("../models/blog");
 
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({});
@@ -11,6 +11,21 @@ blogsRouter.get("/:id", async (request, response) => {
   note ? response.json(note) : response.status(404).end;
 });
 
+blogsRouter.put("/:id", async (request, response) => {
+  const body = request.body;
+
+  const note = {
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes || 0,
+  };
+
+  const updateBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
+    new: true,
+  });
+  response.json(updatedBlog);
+});
 
 blogsRouter.post("/", async (request, response) => {
   const body = request.body;
