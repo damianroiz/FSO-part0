@@ -91,14 +91,31 @@ after(async () => {
   await mongoose.connection.close();
 });
 
-//4.13 
-  test('succeds with status code 204 if Id is valid', async () => {
-    const blogsAtStart = await helper.blogsInDb()
-    const blogtoDelete = blogsAtStart[0]
+//4.13
+test("succeds with status code 204 if Id is valid", async () => {
+  const blogsAtStart = await helper.blogsInDb();
+  const blogtoDelete = blogsAtStart[0];
 
-    await api.delete(`/api/blogs/${blogtoDelete.id}`).expect(204)
+  await api.delete(`/api/blogs/${blogtoDelete.id}`).expect(204);
 
-    const blogsAtEnd = await helper.blogsInDb()
-    console.log(blogsAtEnd, blogsAtStart)
-    // assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
-  })
+  const blogsAtEnd = await helper.blogsInDb();
+});
+
+//4.14
+
+test("An individual blog post can be updated", async () => {
+  const blogsAtStart = await helper.blogsInDb();
+  let blogToModify = blogsAtStart[0];
+  blogToModify.likes = 35;
+
+  const resultBlog = await api
+    .put(`/api/blogs/${blogToModify.id}`)
+    .send(blogToModify)
+    .expect(200)
+    .expect("Content-Type", /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  const modifiedBlog = blogsAtEnd.find((blog) => blog.id === blogToModify.id);
+  console.log(blogsAtEnd);
+  assert.strictEqual(blogToModify.likes, modifiedBlog.likes);
+});
