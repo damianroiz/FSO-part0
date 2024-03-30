@@ -90,3 +90,15 @@ test("a test with missing data is not added", async () => {
 after(async () => {
   await mongoose.connection.close();
 });
+
+//4.13 
+  test('succeds with status code 204 if Id is valid', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogtoDelete = blogsAtStart[0]
+
+    await api.delete(`/api/blogs/${blogtoDelete.id}`).expect(204)
+
+    const blogsAtEnd = await helper.blogsInDb()
+    console.log(blogsAtEnd, blogsAtStart)
+    // assert.strictEqual(blogsAtEnd.length, blogsAtStart.length - 1)
+  })
