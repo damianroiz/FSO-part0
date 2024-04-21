@@ -51,12 +51,31 @@ const initialBlogs = [
   },
 ];
 
+const initialAuthors = [
+  {
+    _id: "6625070978fdd42fb98475f5",
+    username: "Scott",
+    name: "Scotty",
+    passwordHash:
+      "$2a$10$twyg8ly1yBpIgn0u8tu4v.stW64TViebOwEpp1mlOE7aDIgSH9Z.m",
+    blogs: [],
+    __v: 0,
+  },
+];
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
   return blogs.map((blog) => blog.toJSON());
 };
 
+const authorsInDb = async () => {
+  const authors = await Author.find({});
+  return authors.map((author) => author.toJSON());
+};
+
 module.exports = {
   initialBlogs,
+  initialAuthors,
   blogsInDb,
+  authorsInDb,
 };

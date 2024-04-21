@@ -11,4 +11,3 @@ Content-Type: application/json
     "url": "awesomeurl",
     "likes": 1
 }
-
