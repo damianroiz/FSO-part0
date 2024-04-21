@@ -1,0 +1,13 @@
+GET http://localhost:3003/api/authors/
+Content-Type: application/json
+
+###
+
+POST http://localhost:3003/api/authors/
+Content-Type: application/json 
+
+{
+    "username": "Scott",
+    "name": "Scotty",
+    "password": "aventure"
+}
