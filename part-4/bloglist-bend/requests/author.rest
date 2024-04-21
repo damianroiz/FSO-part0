@@ -18,7 +18,7 @@ POST http://localhost:3003/api/authors/
 Content-Type: application/json 
 
 {
-    "username": "S",
-    "name": "Scott",
-    "password": "aventure"
+    "username": "Rocky",
+    "name": "Balvoa",
+    "password": "terminator"
 }

@@ -7,18 +7,18 @@ const authorSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
-  name: String,
-  passwordHash: {
-    type: String,
-    minlength: 3,
-    required: true,
-  },
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Blog",
     },
   ],
+  name: String,
+  passwordHash: {
+    type: String,
+    minlength: 3,
+    required: true,
+  },
 });
 
 const Author = mongoose.model("Author", authorSchema);
