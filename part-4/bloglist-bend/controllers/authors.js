@@ -5,7 +5,6 @@ const Author = require("../models/author");
 ////// 4.15 completed
 authorsRouter.get("/", async (request, response) => {
   const authors = await Author.find({}).populate("blogs");
-  console.log(authors)
   response.json(authors);
 });
 
@@ -28,7 +27,6 @@ authorsRouter.post("/", async (request, response) => {
   });
 
   const savedAuthor = await author.save();
-
   response.status(201).json(savedAuthor);
 });
 

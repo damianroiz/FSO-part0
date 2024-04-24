@@ -10,8 +10,9 @@ POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
-    "title": "An owesome title",
-    "author": "An awesome author",
-    "url": "awesomeurl",
-    "likes": 1
+    "title": "a great book title",
+    "author": "a great book author",
+    "url": "greatbooks1",
+    "likes": 10,
+    "user": "662652fbd3600d4af9d9b038"
 }

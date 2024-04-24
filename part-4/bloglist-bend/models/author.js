@@ -7,17 +7,26 @@ const authorSchema = mongoose.Schema({
     required: true,
     unique: true,
   },
+  name: String,
+  passwordHash: {
+    type: String,
+    minlength: 3,
+    required: true,
+  },
   blogs: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Blog",
     },
   ],
-  name: String,
-  passwordHash: {
-    type: String,
-    minlength: 3,
-    required: true,
+});
+
+authorSchema.set("toJSON", {
+  transform: (document, returnedObject) => {
+    returnedObject.id = returnedObject._id.toString();
+    delete returnedObject._id;
+    delete returnedObject.__v;
+    delete returnedObject.passwordHash;
   },
 });
 
