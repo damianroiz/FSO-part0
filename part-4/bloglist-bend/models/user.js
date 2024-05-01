@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const authorSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
   username: {
     type: String,
     minlength: 3,
@@ -21,7 +21,7 @@ const authorSchema = mongoose.Schema({
   ],
 });
 
-authorSchema.set("toJSON", {
+userSchema.set("toJSON", {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
     delete returnedObject._id;
@@ -30,6 +30,6 @@ authorSchema.set("toJSON", {
   },
 });
 
-const Author = mongoose.model("Author", authorSchema);
+const User = mongoose.model("User", userSchema);
 
-module.exports = Author;
+module.exports = User;

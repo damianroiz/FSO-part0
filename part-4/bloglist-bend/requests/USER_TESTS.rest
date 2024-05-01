@@ -1,20 +1,20 @@
-GET http://localhost:3003/api/authors/
+GET http://localhost:3003/api/users/
 Content-Type: application/json
 
 ###
 
-POST http://localhost:3003/api/authors/
+POST http://localhost:3003/api/users/
 Content-Type: application/json 
 
 {
-    "username": "Scott",
-    "name": "Scotty",
+    "username": "xerox2",
+    "name": "Alexandre",
     "password": "aventure"
 }
 
 ###
 
-POST http://localhost:3003/api/authors/
+POST http://localhost:3003/api/users/
 Content-Type: application/json 
 
 {

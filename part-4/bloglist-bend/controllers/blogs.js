@@ -1,9 +1,9 @@
 const blogsRouter = require("express").Router();
 const Blog = require("../models/blog");
-const Author = require("../models/author");
+const User = require("../models/user");
 
 blogsRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user");
+  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
   response.json(blogs);
 });
 
@@ -31,24 +31,26 @@ blogsRouter.put("/:id", async (request, response) => {
 blogsRouter.post("/", async (request, response) => {
   const body = request.body;
 
-  const author = await Author.findById(body.authorId);
-  //// there has to be an issue within these lines
-  console.log(body.authorId);
+  const user = await User.findById(body.user);
+  if (!user) {
+    return response.status(400).send({ error: "User not found" });
+  }
+
   const blog = new Blog({
+    url: body.url,
     title: body.title,
     author: body.author,
-    url: body.url,
+    user: user._id,
     likes: body.likes || 0,
-    user: author._id,
   });
 
-  if (!author || !body.url) {
+  if (!body.user || !body.url) {
     return response.status(400).send({ error: "missing data" });
   }
 
   const savedBlog = await blog.save();
-  author.blogs = author.blogs.concat(savedBlog._id);
-  await author.save();
+  user.blogs = user.blogs.concat(savedBlog._id);
+  await user.save();
   response.status(201).json(savedBlog);
 });
 

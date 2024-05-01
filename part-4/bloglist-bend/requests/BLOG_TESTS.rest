@@ -1,18 +1,14 @@
 GET http://localhost:3003/api/blogs/
 Content-Type: application/json
 
-###
-GET http://localhost:3003/api/authors/
-Content-Type: application/json
-
 ### 
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
 
 {
+    "url": "greatbooks1",
     "title": "a great book title",
     "author": "a great book author",
-    "url": "greatbooks1",
-    "likes": 10,
-    "user": "662652fbd3600d4af9d9b038"
+    "user": "66326855617693436c999c00",
+    "likes": 10
 }
