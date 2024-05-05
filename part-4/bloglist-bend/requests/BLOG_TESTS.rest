@@ -12,3 +12,17 @@ Content-Type: application/json
     "user": "66326855617693436c999c00",
     "likes": 10
 }
+
+###
+
+POST http://localhost:3003/api/blogs/
+Content-Type: application/json
+Authorization: Bearer yJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIY4NTU2MTc2OTM0MzZjOTk5YzAwIiwiaWF0IjoxNzE0OTUwMTkwfQ.0t6x42mxshW7bX3yzK4kRJDyKyXranyEF31B858FOGg
+
+{
+    "url": "themodelhealthshow",
+    "title": "Eat Smarter",
+    "author": "Shawn Stevenson",
+    "user": "66326855617693436c999c00",
+    "likes": 10
+}

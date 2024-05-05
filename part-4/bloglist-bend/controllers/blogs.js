@@ -1,18 +1,28 @@
-const blogsRouter = require("express").Router();
-const Blog = require("../models/blog");
-const User = require("../models/user");
+const jwt = require('jsonwebtoken');
+const blogsRouter = require('express').Router();
+const Blog = require('../models/blog');
+const User = require('../models/user');
 
-blogsRouter.get("/", async (request, response) => {
-  const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
+const getTokenFrom = (request) => {
+  const authorization = request.get('authorization');
+  if (authorization && authorization.startsWith('Bearer ')) {
+    return authorization.replace('Bearer ', '');
+  } else {
+    return null;
+  }
+};
+
+blogsRouter.get('/', async (request, response) => {
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 });
   response.json(blogs);
 });
 
-blogsRouter.get("/:id", async (request, response) => {
+blogsRouter.get('/:id', async (request, response) => {
   const blog = await Blog.findById(request.params.id);
   blog ? response.json(blog) : response.status(404).end;
 });
 
-blogsRouter.put("/:id", async (request, response) => {
+blogsRouter.put('/:id', async (request, response) => {
   const body = request.body;
 
   const blog = {
@@ -28,13 +38,19 @@ blogsRouter.put("/:id", async (request, response) => {
   response.json(updateBlog);
 });
 
-blogsRouter.post("/", async (request, response) => {
+blogsRouter.post('/', async (request, response) => {
   const body = request.body;
+  const decodedToken = jwt.verify(getTokenFrom(request), process.env.SECRET);
 
-  const user = await User.findById(body.user);
-  if (!user) {
-    return response.status(400).send({ error: "User not found" });
+  if (!decodedToken.id) {
+    return response.status(401).json({ error: 'token invalid' });
   }
+
+  const user = await User.findById(decodedToken.id);
+
+  // if (!user) {
+  //   return response.status(400).send({ error: 'User not found' });
+  // }
 
   const blog = new Blog({
     url: body.url,
@@ -45,7 +61,7 @@ blogsRouter.post("/", async (request, response) => {
   });
 
   if (!body.user || !body.url) {
-    return response.status(400).send({ error: "missing data" });
+    return response.status(400).send({ error: 'missing data' });
   }
 
   const savedBlog = await blog.save();
@@ -54,7 +70,7 @@ blogsRouter.post("/", async (request, response) => {
   response.status(201).json(savedBlog);
 });
 
-blogsRouter.delete("/:id", async (request, response) => {
+blogsRouter.delete('/:id', async (request, response) => {
   await Blog.findByIdAndDelete(request.params.id);
   response.status(204).end();
 });
