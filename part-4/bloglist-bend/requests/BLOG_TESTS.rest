@@ -26,3 +26,9 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlc
     "user": "66326855617693436c999c00",
     "likes": 10
 }
+
+###
+
+DELETE http://localhost:3003/api/blogs/663825e72622aef1168f5fe1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIsImlkIjoiNjYzMjY4NTU2MTc2OTM0MzZjOTk5YzAwIiwiaWF0IjoxNzE0OTU1NzIwfQ.N5zU5B_sCGzkm9rFNm0CKnWA-vg1_8cZVui0dlw8k3w
