@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blog');
 const User = require('../models/user');
+const middleware = require('../utils/middleware');
 
 // const getTokenFrom = (request) => {
 //   // const authorization = request.get('authorization');
@@ -38,19 +39,9 @@ blogsRouter.put('/:id', async (request, response) => {
   response.json(updateBlog);
 });
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   const body = request.body;
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-
-  if (!decodedToken.id) {
-    return response.status(401).json({ error: 'token invalid' });
-  }
-
-  const user = await User.findById(decodedToken.id);
-
-  // if (!user) {
-  //   return response.status(400).send({ error: 'User not found' });
-  // }
+  const user = request.user;
 
   const blog = new Blog({
     url: body.url,
@@ -70,25 +61,24 @@ blogsRouter.post('/', async (request, response) => {
   response.status(201).json(savedBlog);
 });
 
-blogsRouter.delete('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id);
-  if (!blog) {
-    return response.status(404).json({ error: 'blog not found' });
-  }
+blogsRouter.delete(
+  '/:id',
+  middleware.userExtractor,
+  async (request, response) => {
+    const blog = await Blog.findById(request.params.id);
+    const user = request.user;
+    if (!blog) {
+      return response.status(404).json({ error: 'blog not found' });
+    }
+    if (blog.user.toString() !== user._id.toString()) {
+      return response
+        .status(403)
+        .json({ error: 'only the creator can delete this blog' });
+    }
 
-  const decodedToken = jwt.verify(request.token, process.env.SECRET);
-  if (!request.token || !decodedToken.id) {
-    return response.status(401).json({ error: 'token missing or invalid' });
+    await Blog.findByIdAndDelete(request.params.id);
+    response.status(204).end();
   }
-
-  if (blog.user.toString() !== decodedToken.id.toString()) {
-    return response
-      .status(403)
-      .json({ error: 'only the creator can delete this blog' });
-  }
-
-  await Blog.findByIdAndDelete(request.params.id);
-  response.status(204).end();
-});
+);
 
 module.exports = blogsRouter;

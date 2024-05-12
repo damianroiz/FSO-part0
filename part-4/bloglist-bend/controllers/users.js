@@ -9,6 +9,7 @@ usersRouter.get("/", async (request, response) => {
     title: 1,
     author: 1,
   });
+  
   response.json(users);
 });
 
