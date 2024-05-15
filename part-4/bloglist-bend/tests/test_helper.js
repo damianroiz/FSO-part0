@@ -1,65 +1,69 @@
-const Blog = require("../models/blog");
+const supertest = require('supertest');
+const app = require('../app');
+const api = supertest(app);
+const Blog = require('../models/blog');
+const User = require('../models/user');
+
+const loginUser = async () => {
+  try {
+    const response = await api.post('/api/login').send({
+      username: 'testuser',
+      password: 'testpassword',
+    });
+
+    console.log(response.body);
+    return response.body;
+  } catch (error) {
+    console.error('Error loggin in:', error);
+  }
+};
 
 const initialBlogs = [
   {
-    _id: "5a422a851b54a676234d17f7",
-    title: "React patterns",
-    author: "Michael Chan",
-    url: "https://reactpatterns.com/",
-    likes: 7,
-    __v: 0,
-  },
-  {
-    _id: "5a422aa71b54a676234d17f8",
-    title: "Go To Statement Considered Harmful",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
-    likes: 5,
-    __v: 0,
-  },
-  {
-    _id: "5a422b3a1b54a676234d17f9",
-    title: "Canonical string reduction",
-    author: "Edsger W. Dijkstra",
-    url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
-    likes: 12,
-    __v: 0,
-  },
-  {
-    _id: "5a422b891b54a676234d17fa",
-    title: "First class tests",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
+    url: 'themodelhealthshow',
+    title: 'Eat Smarter',
+    author: 'Shawn Stevenson',
+    user: {
+      username: 'xerox2',
+      name: 'Alexandre',
+      id: '66326855617693436c999c00',
+    },
     likes: 10,
-    __v: 0,
+    id: '6638137414af094b0f45d45e',
   },
   {
-    _id: "5a422ba71b54a676234d17fb",
-    title: "TDD harms architecture",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
-    __v: 0,
-  },
-  {
-    _id: "5a422bc61b54a676234d17fc",
-    title: "Type wars",
-    author: "Robert C. Martin",
-    url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",
-    likes: 2,
-    __v: 0,
+    url: 'midudev',
+    title: 'Aprendiendo Git y Github',
+    author: 'Miguel Angel Duran',
+    user: {
+      username: 'xerox2',
+      name: 'Alexandre',
+      id: '66326855617693436c999c00',
+    },
+    likes: 9,
+    id: '664010dd377875163745d4c7',
   },
 ];
 
-const initialAuthors = [
+const initialUsers = [
   {
-    _id: "6625070978fdd42fb98475f5",
-    username: "Scott",
-    name: "Scotty",
-    passwordHash:
-      "$2a$10$twyg8ly1yBpIgn0u8tu4v.stW64TViebOwEpp1mlOE7aDIgSH9Z.m",
-    blogs: [],
-    __v: 0,
+    username: 'xerox2',
+    name: 'Alexandre',
+    blogs: [
+      {
+        url: 'themodelhealthshow',
+        title: 'Eat Smarter',
+        author: 'Shawn Stevenson',
+        id: '6638137414af094b0f45d45e',
+      },
+      {
+        url: 'midudev',
+        title: 'Aprendiendo Git y Github',
+        author: 'Miguel Angel Duran',
+        id: '664010dd377875163745d4c7',
+      },
+    ],
+    id: '66326855617693436c999c00',
   },
 ];
 
@@ -68,14 +72,15 @@ const blogsInDb = async () => {
   return blogs.map((blog) => blog.toJSON());
 };
 
-const authorsInDb = async () => {
-  const authors = await Author.find({});
-  return authors.map((author) => author.toJSON());
+const usersInDb = async () => {
+  const users = await User.find({});
+  return users.map((user) => user.toJSON());
 };
 
 module.exports = {
+  loginUser,
   initialBlogs,
-  initialAuthors,
+  initialUsers,
   blogsInDb,
-  authorsInDb,
+  usersInDb,
 };
