@@ -11,50 +11,42 @@ const helper = require('./test_helper');
 // reinitiate the database to allow tests to run on consistent data
 
 beforeEach(async () => {
-  try {
-    await User.deleteMany({});
-    await Blog.deleteMany({});
-    const userObject = helper.initialUsers.map((user) => new User(user));
-    const blogObject = helper.initialBlogs.map((blog) => new Blog(blog));
-    const blogArray = blogObject.map((blog) => blog.save());
-    const userArray = userObject.map((user) => user.save());
-    await Promise.all([...blogArray, ...userArray]);
-  } catch (err) {
-    console.error(err);
-  }
+  await Blog.deleteMany({});
+  await User.deleteMany({});
+  const blogObject = helper.initialBlogs.map((blog) => new Blog(blog));
+  const blogArray = blogObject.map((blog) => blog.save());
+  await Promise.all(blogArray);
 });
 
-//4.10
+//4.23
 test('a blog is created successfully', async () => {
-    const token = await helper.loginUser()
-    console.log(token)
-  
-  //   const newBlog = {
-  //   url: 'midudev',
-  //   title: 'Aprendiendo Javascript',
-  //   author: 'A great IT author',
-  //   user: user.id,
-  //   likes: 9,
-  // };
+  const newBlog = {
+    url: 'howtoberich',
+    title: 'How to be rich',
+    author: 'A rich Author',
+    likes: 9,
+  };
 
-  // await api
-  //   .post('/api/blogs')
-  //   .set('Authorization', `Bearer ${token}`)
-  //   .send(newBlog)
-  //   .expect(201)
-  //   .expect('Content-Type', /application\/json/);
+  const token = await testUserToken();
+  console.log("here is the error ", token);
 
-  // const response = await api.get('/api/blogs');
-  // const contents = response.body.map((b) => b.title);
-  // assert.strictEqual(response.body.length, helper.initialBlogs.length + 1);
+  await api
+    .post('/api/blogs')
+    .set('Authorization', `Bearer ${token}`)
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const response = await api.get('/api/blogs');
+  const contents = response.body.map((b) => b.title);
+  assert.strictEqual(response.body.length, helper.initialBlogs.length + 1);
 });
-// /// 4.8
+
 // test('return the number of blogs', async () => {
 //   const response = await api.get('/api/blogs');
 //   assert(response.body.length, 1);
 // });
 
-// //4.9
 // test('the id property exists', async () => {
 //   const response = await api.get('/api/blogs');
 //   response.body.forEach((blog) => {
@@ -62,8 +54,6 @@ test('a blog is created successfully', async () => {
 //   });
 // });
 
-
-// //4.11
 // test('a blog with no likes shows 0 likes', async () => {
 //   const unpopularBlog = {
 //     title: 'A title with not likes',
@@ -87,7 +77,6 @@ test('a blog is created successfully', async () => {
 //   });
 // });
 
-// //4.12
 // test('a test with missing data is not added', async () => {
 //   const incompleteBlog = {
 //     title: 'An incomplete blog',
@@ -101,7 +90,6 @@ test('a blog is created successfully', async () => {
 //   await mongoose.connection.close();
 // });
 
-// //4.13
 // test('succeds with status code 204 if Id is valid', async () => {
 //   const blogsAtStart = await helper.blogsInDb();
 //   const blogtoDelete = blogsAtStart[0];
@@ -110,8 +98,6 @@ test('a blog is created successfully', async () => {
 
 //   const blogsAtEnd = await helper.blogsInDb();
 // });
-
-// //4.14
 
 // test('An individual blog post can be updated', async () => {
 //   const blogsAtStart = await helper.blogsInDb();

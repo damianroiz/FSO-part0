@@ -4,20 +4,6 @@ const api = supertest(app);
 const Blog = require('../models/blog');
 const User = require('../models/user');
 
-const loginUser = async () => {
-  try {
-    const response = await api.post('/api/login').send({
-      username: 'testuser',
-      password: 'testpassword',
-    });
-
-    console.log(response.body);
-    return response.body;
-  } catch (error) {
-    console.error('Error loggin in:', error);
-  }
-};
-
 const initialBlogs = [
   {
     url: 'themodelhealthshow',
@@ -29,7 +15,7 @@ const initialBlogs = [
       id: '66326855617693436c999c00',
     },
     likes: 10,
-    id: '6638137414af094b0f45d45e',
+    id: '664de0130701d40da0d36827',
   },
   {
     url: 'midudev',
@@ -41,31 +27,21 @@ const initialBlogs = [
       id: '66326855617693436c999c00',
     },
     likes: 9,
-    id: '664010dd377875163745d4c7',
+    id: '664de0130701d40da0d36827',
   },
 ];
 
-const initialUsers = [
-  {
-    username: 'xerox2',
-    name: 'Alexandre',
-    blogs: [
-      {
-        url: 'themodelhealthshow',
-        title: 'Eat Smarter',
-        author: 'Shawn Stevenson',
-        id: '6638137414af094b0f45d45e',
-      },
-      {
-        url: 'midudev',
-        title: 'Aprendiendo Git y Github',
-        author: 'Miguel Angel Duran',
-        id: '664010dd377875163745d4c7',
-      },
-    ],
-    id: '66326855617693436c999c00',
-  },
-];
+const testUserToken = async () => {
+  const testUser = {
+    username: 'testUser',
+    name: 'John Testing',
+    password: 'testPassword',
+  };
+
+  await api.post('/api/users').send(testUser);
+  const loginDetails = await api.post('/api/login').send(testUser);
+  return loginDetails.body.token;
+};
 
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
@@ -78,9 +54,8 @@ const usersInDb = async () => {
 };
 
 module.exports = {
-  loginUser,
   initialBlogs,
-  initialUsers,
   blogsInDb,
+  testUserToken,
   usersInDb,
 };

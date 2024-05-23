@@ -17,12 +17,12 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIsImlkIjoiNjYzMjY4NTU2MTc2OTM0MzZjOTk5YzAwIiwiaWF0IjoxNzE1NDc0NjA1fQ.Tvj4NhSrFlM5OwgVeF9lEBMJ1HgiRd0kHdf-rRTFcyk
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIsImlkIjoiNjY0ZGUwMTMwNzAxZDQwZGEwZDM2ODI3IiwiaWF0IjoxNzE2NDc0MDIzfQ.oLVLkd5LE-MeEwdF-HsJ1HquFy-G5IWspJQxQdIhR2E
 
 {
-    "url": "midudev",
-    "title": "Aprendiendo Javascript",
-    "author": "A great IT author",
+    "url": "fullstackopen",
+    "title": "Learning Github",
+    "author": "another great author",
     "user": "66326855617693436c999c00",
     "likes": 9
 }
