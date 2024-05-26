@@ -4,33 +4,6 @@ const api = supertest(app);
 const Blog = require('../models/blog');
 const User = require('../models/user');
 
-const initialBlogs = [
-  {
-    url: 'themodelhealthshow',
-    title: 'Eat Smarter',
-    author: 'Shawn Stevenson',
-    user: {
-      username: 'xerox2',
-      name: 'Alexandre',
-      id: '66326855617693436c999c00',
-    },
-    likes: 10,
-    id: '664de0130701d40da0d36827',
-  },
-  {
-    url: 'midudev',
-    title: 'Aprendiendo Git y Github',
-    author: 'Miguel Angel Duran',
-    user: {
-      username: 'xerox2',
-      name: 'Alexandre',
-      id: '66326855617693436c999c00',
-    },
-    likes: 9,
-    id: '664de0130701d40da0d36827',
-  },
-];
-
 const testUserToken = async () => {
   const testUser = {
     username: 'testUser',
@@ -43,6 +16,33 @@ const testUserToken = async () => {
   return loginDetails.body.token;
 };
 
+const initialBlogs = [
+  {
+    url: 'themodelhealthshow',
+    title: 'Eat Smarter',
+    author: 'Shawn Stevenson',
+    user: {
+      username: 'xerox2',
+      name: 'Alexandre',
+      id: '66326855617693436c999c00',
+    },
+    likes: 10,
+    id: '664de0130701d40da0d36827',
+  }
+  // {
+  //   url: 'midudev',
+  //   title: 'Aprendiendo Git y Github',
+  //   author: 'Miguel Angel Duran',
+  //   user: {
+  //     username: 'xerox2',
+  //     name: 'Alexandre',
+  //     id: '66326855617693436c999c00',
+  //   },
+  //   likes: 9,
+  //   id: '664de0130701d40da0d36827',
+  // },
+];
+
 const blogsInDb = async () => {
   const blogs = await Blog.find({});
   return blogs.map((blog) => blog.toJSON());
@@ -54,8 +54,8 @@ const usersInDb = async () => {
 };
 
 module.exports = {
+  testUserToken,
   initialBlogs,
   blogsInDb,
-  testUserToken,
   usersInDb,
 };

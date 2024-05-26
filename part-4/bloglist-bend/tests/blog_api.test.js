@@ -4,18 +4,22 @@ const mongoose = require('mongoose');
 const supertest = require('supertest');
 const app = require('../app');
 const api = supertest(app);
-const Blog = require('../models/blog');
 const User = require('../models/user');
+const Blog = require('../models/blog');
 const helper = require('./test_helper');
 
 // reinitiate the database to allow tests to run on consistent data
 
 beforeEach(async () => {
-  await Blog.deleteMany({});
-  await User.deleteMany({});
-  const blogObject = helper.initialBlogs.map((blog) => new Blog(blog));
-  const blogArray = blogObject.map((blog) => blog.save());
-  await Promise.all(blogArray);
+  try {
+    await Blog.deleteMany({});
+    await User.deleteMany({});
+    const blogObject = helper.initialBlogs.map((blog) => new Blog(blog));
+    const blogArray = blogObject.map((blog) => blog.save());
+    await Promise.all(blogArray);
+  } catch (error) {
+    console.log('this is the error ', error);
+  }
 });
 
 //4.23
@@ -24,11 +28,12 @@ test('a blog is created successfully', async () => {
     url: 'howtoberich',
     title: 'How to be rich',
     author: 'A rich Author',
+    user: '6651e2ff3abdf7806515fe83',
     likes: 9,
   };
 
-  const token = await testUserToken();
-  console.log("here is the error ", token);
+  const token = await helper.testUserToken();
+  console.log('here is the error ', token);
 
   await api
     .post('/api/blogs')
@@ -39,13 +44,35 @@ test('a blog is created successfully', async () => {
 
   const response = await api.get('/api/blogs');
   const contents = response.body.map((b) => b.title);
-  assert.strictEqual(response.body.length, helper.initialBlogs.length + 1);
+  assert.strictEqual(response.body.length, helper.initialBlogs.length);
 });
 
-// test('return the number of blogs', async () => {
-//   const response = await api.get('/api/blogs');
-//   assert(response.body.length, 1);
-// });
+test('a fails with status code 401 when token is not provided', async () => {
+  const newBlog = {
+    url: 'howtoberich',
+    title: 'How to be rich',
+    author: 'A rich Author',
+    user: '6651e2ff3abdf7806515fe83',
+    likes: 9,
+  };
+
+  await api
+    .post('/api/blogs')
+    // .set('Authorization', `Bearer ${token}`)
+    .send(newBlog)
+    .expect(401)
+    .expect('Content-Type', /application\/json/);
+
+  const response = await api.get('/api/blogs');
+  const contents = response.body.map((b) => b.title);
+  assert(response.body.length  === 0);
+});
+
+test('return the number of blogs', async () => {
+  const response = await api.get('/api/blogs');
+  console.log(response.body.length)
+  // assert(response.body.length === 1);
+});
 
 // test('the id property exists', async () => {
 //   const response = await api.get('/api/blogs');

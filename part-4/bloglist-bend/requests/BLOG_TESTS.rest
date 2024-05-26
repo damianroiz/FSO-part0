@@ -17,13 +17,13 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIsImlkIjoiNjY0ZGUwMTMwNzAxZDQwZGEwZDM2ODI3IiwiaWF0IjoxNzE2NDc0MDIzfQ.oLVLkd5LE-MeEwdF-HsJ1HquFy-G5IWspJQxQdIhR2E
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIsImlkIjoiNjY1MzQ1ZGZiMTcwZDk5MGFmZjM5OWFiIiwiaWF0IjoxNzE2NzMzNDQ3fQ.sMA1pzONt_EtNInabrSBq6Fw-C5OzYwoRLErq2mjFE4
 
 {
     "url": "fullstackopen",
-    "title": "Learning Github",
-    "author": "another great author",
-    "user": "66326855617693436c999c00",
+    "title": "Learn MongoDB",
+    "author": "Nenad",
+    "user": "6651e2ff3abdf7806515fe83",
     "likes": 9
 }
 
