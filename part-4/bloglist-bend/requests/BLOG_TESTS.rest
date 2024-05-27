@@ -17,7 +17,7 @@ Content-Type: application/json
 
 POST http://localhost:3003/api/blogs/
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIsImlkIjoiNjY1MzQ1ZGZiMTcwZDk5MGFmZjM5OWFiIiwiaWF0IjoxNzE2NzMzNDQ3fQ.sMA1pzONt_EtNInabrSBq6Fw-C5OzYwoRLErq2mjFE4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Inhlcm94MiIsImlkIjoiNjY1M2E4OTZjMDBjN2VjNmY1ZGE0YWZhIiwiaWF0IjoxNzE2NzU4NjkxfQ.cv9cPcoJG8v8GI0xqzUcXcpDCJmQ0_YZHPCXRVmzZLo
 
 {
     "url": "fullstackopen",

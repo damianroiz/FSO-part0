@@ -16,31 +16,22 @@ const testUserToken = async () => {
   return loginDetails.body.token;
 };
 
+
 const initialBlogs = [
   {
     url: 'themodelhealthshow',
     title: 'Eat Smarter',
     author: 'Shawn Stevenson',
-    user: {
-      username: 'xerox2',
-      name: 'Alexandre',
-      id: '66326855617693436c999c00',
-    },
     likes: 10,
-    id: '664de0130701d40da0d36827',
-  }
-  // {
-  //   url: 'midudev',
-  //   title: 'Aprendiendo Git y Github',
-  //   author: 'Miguel Angel Duran',
-  //   user: {
-  //     username: 'xerox2',
-  //     name: 'Alexandre',
-  //     id: '66326855617693436c999c00',
-  //   },
-  //   likes: 9,
-  //   id: '664de0130701d40da0d36827',
-  // },
+    id: '6653c3f5a51287bb5644ebd6',
+  },
+  {
+    url: 'midudev',
+    title: 'Aprendiendo Git y Github',
+    author: 'Miguel Angel Duran',
+    likes: 9,
+    id: '6653c3f5a51287bb5644ebd7',
+  },
 ];
 
 const blogsInDb = async () => {
