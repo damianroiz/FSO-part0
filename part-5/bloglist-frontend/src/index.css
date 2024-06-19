@@ -4,8 +4,7 @@
   box-sizing: border-box;
 }
 
-body {
-  margin: 3rem;
+
+.app {
+  margin: 10rem;
 }
-
-
