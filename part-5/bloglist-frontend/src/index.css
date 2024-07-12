@@ -23,3 +23,12 @@
   border: 3px solid rgb(215, 34, 2);
   border-radius: 10px;
 }
+
+.success {
+  color: rgb(0, 137, 14);
+  background-color: rgba(214, 255, 215, 0.976);
+  padding: 0.8rem 1.2rem;
+  margin-bottom: 2rem;
+  border: 3px solid rgb(0, 137, 14);
+  border-radius: 10px;
+}

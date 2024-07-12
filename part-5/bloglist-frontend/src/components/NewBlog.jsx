@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const NewBlog = ({ blogService, blogs, setBlogs, user }) => {
+const NewBlog = ({ blogService, blogs, setBlogs, user, message }) => {
   const [newBlog, setNewBlog] = useState('');
 
   const handleSubmit = (e) => {
@@ -19,6 +19,12 @@ const NewBlog = ({ blogService, blogs, setBlogs, user }) => {
       .create(blogObject)
       .then((returnedBlog) => {
         setBlogs(blogs.concat(returnedBlog));
+        message(
+          `a new blog ${returnedBlog.title} by ${returnedBlog.author} added`
+        );
+        setTimeout(() => {
+          message(null);
+        }, 5000);
         setNewBlog('');
       })
       .catch((error) => console.error('Error creating blog', error));

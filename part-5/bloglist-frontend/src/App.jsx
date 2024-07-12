@@ -9,6 +9,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState(null); 
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -87,6 +88,7 @@ const App = () => {
 
   const userBlogs = () => (
     <>
+     {successMessage && <div className="success">{successMessage}</div>}
       <h2>blogs</h2>
       <div className={'userInfo'}>
         <p>
@@ -99,8 +101,9 @@ const App = () => {
       ))}
       <NewBlog
         blogService={blogService}
-        blogs={blogs}
         setBlogs={setBlogs}
+        blogs={blogs}
+        message={setSuccessMessage}
         user={user}
       />
     </>
